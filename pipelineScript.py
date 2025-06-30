@@ -87,7 +87,7 @@ start_time = time.time()
 
 if to_preprocess:
 
-    """shutil.rmtree(daily_averages_u_path, ignore_errors=True)
+    shutil.rmtree(daily_averages_u_path, ignore_errors=True)
     shutil.rmtree(daily_averages_v_path, ignore_errors=True)
     shutil.rmtree(rotated_data_path, ignore_errors=True)
     shutil.rmtree(zoomed_data_path, ignore_errors=True)
@@ -96,7 +96,7 @@ if to_preprocess:
     os.makedirs(daily_averages_u_path)
     os.makedirs(daily_averages_v_path)
     os.makedirs(rotated_data_path)
-    os.makedirs(zoomed_data_path)"""
+    os.makedirs(zoomed_data_path)
 
     print("Opening grib file")
     u_values, v_values, lats, lons, length = read_data(input_files_path, year, region_path)
