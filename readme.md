@@ -61,6 +61,6 @@ Note:
 
 ---
 
-* Excel (.xlsx) file containing the optimal model's parameters and training and test set classification results
+* Excel (.xlsx) file containing the optimal model's parameters and train-validation and test set classification results
 * Excel (.xlsx) file containing the optimal model's rule set
-* The files are organized according to the depths testes in the pipeline (3 to 5)
+* The files are organized according to the depths tested in the pipeline (3 to 10)
