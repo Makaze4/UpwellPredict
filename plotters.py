@@ -73,19 +73,19 @@ def get_region_angles_2(angles,region_path)->list:
     @:return: The adjusted angles."""
 
     if region_path == 'North':
-        angles[(angles >= 30) & (angles <= 30.25)] = np.deg2rad(140)
+        """angles[(angles >= 30) & (angles <= 30.25)] = np.deg2rad(140)
         angles[(angles > 30.25) & (angles <= 31.25)] = np.deg2rad(180)
         angles[(angles > 31.25) & (angles <= 32.25)] = np.deg2rad(209)
         angles[(angles > 32.25) & (angles <= 33.25)] = np.deg2rad(221)
         angles[(angles > 33.25) & (angles <= 34)] = np.deg2rad(240)
-        angles[(angles > 34) & (angles <= 36)] = np.deg2rad(202)
+        angles[(angles > 34) & (angles <= 36)] = np.deg2rad(202)"""
 
-        """angles[(angles >= 30) & (angles <= 30.25)] = np.deg2rad(320)
+        angles[(angles >= 30) & (angles <= 30.25)] = np.deg2rad(320)
         angles[(angles > 30.25) & (angles <= 31.25)] = np.deg2rad(0)
         angles[(angles > 31.25) & (angles <= 32.25)] = np.deg2rad(389)
         angles[(angles > 32.25) & (angles <= 33.25)] = np.deg2rad(401)
         angles[(angles > 33.25) & (angles <= 34)] = np.deg2rad(420)
-        angles[(angles > 34) & (angles <= 36)] = np.deg2rad(382)"""
+        angles[(angles > 34) & (angles <= 36)] = np.deg2rad(382)
 
 
     else:
@@ -124,7 +124,7 @@ def plot_preprocesspipeline_steps(year: str,region_path: str,lons: np.array, lat
     y_new = np.linspace(min_lat, max_lat, sst_shape[0])
     xv_new, yv_new = np.meshgrid(x_new, y_new)
 
-    for i in range(366):
+    for i in range(8):
         if i == 365 and year not in ['2004', '2008', '2012', '2016']:
             break
 
@@ -190,7 +190,11 @@ def plot_preprocesspipeline_steps(year: str,region_path: str,lons: np.array, lat
         #Rotated plot
 
         angles = np.copy(lats)
-        angles = get_region_angles_2(angles,region_path)
+
+        if region_path == 'North':
+            angles = get_region_angles(angles,region_path)
+        else:
+            angles = get_region_angles_2(angles,region_path)
 
         u_value,v_value = mpcalc.wind_components(wind * units('m/s'), angles * units('rad'))
 
@@ -224,7 +228,11 @@ def plot_preprocesspipeline_steps(year: str,region_path: str,lons: np.array, lat
 
 
         angles = np.copy(yv_new)
-        angles = get_region_angles(angles,region_path)
+
+        if region_path == 'North':
+            angles = get_region_angles_2(angles,region_path)
+        else:
+            angles = get_region_angles(angles,region_path)
 
         u_value,v_value = mpcalc.wind_components(np.flipud(zoomed_wind) * units('m/s'), angles * units('rad'))
 

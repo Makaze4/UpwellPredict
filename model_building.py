@@ -31,16 +31,34 @@ criterions = ['gini', 'entropy']
 
 feature_names = ['Min_WSA_Z1','Avg_WSA_Z1','Max_WSA_Z1','Min_WSA_Z2','Avg_WSA_Z2','Max_WSA_Z2','Min_WSA_Z4','Avg_WSA_Z4','Max_WSA_Z4','Min_WSA_Z5','Avg_WSA_Z5','Max_WSA_Z5','Min_WSA_Z7','Avg_WSA_Z7','Max_WSA_Z7','Min_WSA_Z8','Avg_WSA_Z8','Max_WSA_Z8','Min_WSA_Z9','Avg_WSA_Z9','Max_WSA_Z9','Min_WSA_Z10','Avg_WSA_Z10','Max_WSA_Z10','Min_WSA_Z11','Avg_WSA_Z11','Max_WSA_Z11','Min_WSA_Z12','Avg_WSA_Z12','Max_WSA_Z12','Z1_Z2_Difference','Z4_Z5_Difference','Z7_Z9_Difference','Z10_Z12_Difference','Min_Temp_Z1','Avg_Temp_Z1','Max_Temp_Z1','Min_Temp_Z2','Avg_Temp_Z2','Max_Temp_Z2','Min_Temp_Z4','Avg_Temp_Z4','Max_Temp_Z4','Min_Temp_Z5','Avg_Temp_Z5','Max_Temp_Z5','Min_Temp_Z7','Avg_Temp_Z7','Max_Temp_Z7','Min_Temp_Z8','Avg_Temp_Z8','Max_Temp_Z8','Min_Temp_Z9','Avg_Temp_Z9','Max_Temp_Z9','Min_Temp_Z10','Avg_Temp_Z10','Max_Temp_Z10','Min_Temp_Z11','Avg_Temp_Z11','Max_Temp_Z11','Min_Temp_Z12','Avg_Temp_Z12','Max_Temp_Z12']
 
-#Demo values
+"""
+Demo values
 decision_tree_params = {'min_samples_leaf': range(1, 6, 2),
                         'min_samples_split': range(2, 9),
                         'criterion': criterions}
 
-#Demo values
+
 random_forest_params = {'n_estimators': [100],
                         'criterion': criterions,
                         'min_samples_split': range(2, 3),
                         'min_samples_leaf': range(1, 2)}
+"""
+
+
+"""Experiments Values"""
+
+decision_tree_params = {'min_samples_leaf': range(1, 11),
+                        'min_samples_split': [0.05,0.1,2,3,4,5,6,7,8,9],
+                        'criterion': criterions}
+
+
+random_forest_params = {'n_estimators': [100,300,500,700],
+                        'criterion': criterions,
+                        'min_samples_split': [0.05,0.1,1,2,5,7,9,10],
+                        'min_samples_leaf': [0.05,1,3,5,7,9],
+                        'max_features': ['sqrt', None]}
+
+
 
 scoring = {'f1_macro': make_scorer(f1_score,average='macro'),
            'balanced_accuracy': make_scorer(balanced_accuracy_score),

@@ -27,7 +27,7 @@ model = 'dt'  # 'dt' for Decision Tree, 'rf' for Random Forest
 defuzzification_function = 'mom' # 'mom', 'som', 'lom', 'centroid', 'bisector'
 
 
-#Defatult values for the experiments - Comment the next line to run the script without user input
+#Default values for the experiments - Comment the next line to run the script without user input
 
 """year = '2019'
 region_path = 'North'
@@ -117,26 +117,31 @@ if to_preprocess:
 if to_plot:
     shutil.rmtree(plot_output_path, ignore_errors=True)
     os.makedirs(plot_output_path)
-
+    u_values, v_values, lats, lons, length = read_data(input_files_path, year, region_path)
     print("Plotting the preprocessing pipeline steps")
+    #Only plots the first 8 days for sake of demonstration
     plot_preprocesspipeline_steps(year,region_path, lons, lats,input_files_path,daily_averages_u_path, daily_averages_v_path, rotated_data_path, zoomed_data_path, plot_output_path)
+    print("Finished plotting the preprocessing pipeline steps")
 
+#Contains stages 2 and 3 of the workflow
 if to_extract_features:
 
     print("Extracting features from the zoomed data")
 
     # check if extracted_features.csv exists, if it does, skip
+    # Stage 2
 
     if not os.path.exists(experiments_output_parent_path / 'extracted_features.csv'):
         # Extract features from the zoomed data if the file is non-existent
         extract_features(zoomed_data_path, input_files_path, x, y, region_path, year, experiments_output_parent_path)
 
-    # Build the dataset
+    # Build the dataset - Stage 2
     trap_functions, cores, centroids = compute_classes(year, region_path, experimentsInput_path, defuzzification_function)
     build_dataset(experiments_output_parent_path, experimentsInput_path, year, region_path, experimentsInput_path, defuzzification_function)
 
     # Plot the trapezoidal functions
     plot_trap_functions(trap_functions, cores, centroids, year, region_path, defuzzification_function, plot_output_path)
+    print("Finished extracting features and building the dataset")
 
 
 if to_predict:
