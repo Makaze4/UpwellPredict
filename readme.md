@@ -36,11 +36,11 @@ pip install -r requirements.txt
 ---
 
 * Download the repository and place it in a directory of your choice.
-* Use an IDE to run the software, as it uses several paths as inputs to the program
+* It is recommended to use an IDE to run the software, as it uses several paths as inputs to the program
 * To run the software, execute the pipelineScript.py file.
 
 Note: 
-* Although the software as of testing is working, it is recommended to run only the third stage of the pipeline. This is because the final step of the preprocessing pipeline generates huge amounts of data.
+* The software as of testing is working, it is recommended to run only the third stage of the pipeline due to the final step of the preprocessing pipeline generating huge amounts of data.
 * For this matter, 2 pre-made datasets are available in the folder 'experimentsInput'
 
 ## Sample data from the year 2019: North and South Morocco
@@ -53,9 +53,6 @@ Note:
     * The *.grib file from the full year extracted from the Copernicus Climate Change Service (C3S) Climate Data Store (CDS)
     * The *.mat files containing the original SST information of each week
     * An additional auxiliary *.grib and *.mat files to be used during the preprocessing steps
-* Only the datasets classified with the "Middle of Maximum" defuzzification method are used in the pipeline
-* The image "pipeline.png" shows the fully developed pipeline steps, since its preprocessing phase until the model's evaluation
-
 
 ## Output data
 
@@ -64,3 +61,5 @@ Note:
 * Excel (.xlsx) file containing the optimal model's parameters and train-validation and test set classification results
 * Excel (.xlsx) file containing the optimal model's rule set
 * The files are organized according to the depths tested in the pipeline (3 to 10)
+* Preprocesing pipeline resutls of the first 8 days
+* Trapezoidal membership functions obtained in the corresponding year
