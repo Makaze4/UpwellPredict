@@ -46,7 +46,7 @@ pip install -r requirements.txt
 
 ---
 
-## Sample data from the years 2016 and 2018: North and South Morocco-experimentsInput
+## Sample data from the years 2016 and 2018: North and South Morocco-input_data
 
 ---
 
@@ -73,9 +73,12 @@ Also divided into North and South, the output data contains:
 
 
 
-## Note
+## Notes
 
-The software as of testing is working, however it should be noticed that some results may differ
+---
+
+* The software as of testing is working, however it should be noticed that some results may differ
 from the ones presented in the paper due to the random nature of the machine learning algorithms used.
 The results are reproducible, but the optimal hyperparameters
 and subsequent rule sets may vary slightly due to the random nature of the algorithms.
+* User Warnings are issued but these can be ignored as they do not affect the results of the pipeline.

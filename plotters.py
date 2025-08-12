@@ -358,7 +358,7 @@ def plot_decision_tree(dt: DecisionTreeClassifier,year: str,region: str, d: int,
     fig = plt.figure(figsize=(25,20))
     _ = plot_tree(dt, feature_names = feature_names,class_names=class_names,filled=True,precision=2)
 
-    fig.savefig(output_path / f'{year}_{region}_{mode}_{str(d)}_decision_tree_test.png')
+    fig.savefig(output_path / f'{year}_{region}_{mode}_{str(d)}_decision_tree.png')
     #clear the figure to avoid overlap in subsequent plots
     plt.close(fig)
 

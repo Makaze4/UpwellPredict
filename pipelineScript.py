@@ -10,9 +10,9 @@ from plotters import plot_preprocesspipeline_steps, plot_trap_functions
 import time
 
 """Variables to run the experiments"""
-to_preprocess = False  # To perform the preprocessing pipeline
-to_extract_features = False  # To perform the first stage of the experiment pipeline
-to_predict = False  # To perform the second stage of the experiment pipeline
+to_preprocess = True  # To perform the preprocessing pipeline
+to_extract_features = True  # To perform the first stage of the experiment pipeline
+to_predict = True  # To perform the second stage of the experiment pipeline
 
 """Optional variables to run the experiments"""
 to_plot = False  # Plot the results of the preprocessing pipeline - Optional - Beware of additional time and space consumption - Only for demo purposes
