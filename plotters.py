@@ -4,6 +4,7 @@ import xarray
 from metpy.units import units
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 from scipy.io import loadmat
+from scipy.ndimage import zoom
 from sklearn.tree import plot_tree
 from pathlib import Path
 from sklearn.tree import DecisionTreeClassifier
@@ -132,7 +133,7 @@ def plot_preprocesspipeline_steps(year: str,region_path: str,lons: np.array, lat
         u = np.loadtxt(u_path / f'day_{i}.csv', delimiter=',')[4:, :]
         v = np.loadtxt(v_path / f'day_{i}.csv', delimiter=',')[4:, :]
         wind = np.loadtxt(rotated_path / f'day_{i}.csv', delimiter=',')[4:, :]
-        zoomed_wind = np.loadtxt(zoomed_path / f'average_parallel_component_{i}_nan.csv', delimiter=',').reshape(sst_shape)
+        #zoomed_wind = np.loadtxt(zoomed_path / f'average_parallel_component_{i}_nan.csv', delimiter=',').reshape(sst_shape)
 
 
         # --- Plotting ---
@@ -234,7 +235,18 @@ def plot_preprocesspipeline_steps(year: str,region_path: str,lons: np.array, lat
         else:
             angles = get_region_angles(angles,region_path)
 
-        u_value,v_value = mpcalc.wind_components(np.flipud(zoomed_wind) * units('m/s'), angles * units('rad'))
+
+
+        zoom_factor_x = sst_shape[1]/wind.shape[1]
+        zoom_factor_y = sst_shape[0]/wind.shape[0]
+        wind[np.isnan(wind)] = 0
+        zoom_wind = zoom(wind, (zoom_factor_y, zoom_factor_x))
+        zoom_wind[np.isnan(sst_data)] = np.nan
+        #flat_zoom_nan = zoom_wind.flatten()
+        flat_zoom_nan = np.abs(zoom_wind).reshape(sst_shape)
+
+
+        u_value,v_value = mpcalc.wind_components(np.flipud(flat_zoom_nan) * units('m/s'), angles * units('rad'))
 
 
         bmap2 = Basemap(projection='cyl',
@@ -242,7 +254,7 @@ def plot_preprocesspipeline_steps(year: str,region_path: str,lons: np.array, lat
                         llcrnrlon=xv_new.min(), urcrnrlon=xv_new.max(),
                         ax=axes[2])
 
-        cf2 = bmap2.contourf(xv_new, yv_new, np.flipud(zoomed_wind), cmap='jet', latlon=True)
+        cf2 = bmap2.contourf(xv_new, yv_new, np.flipud(flat_zoom_nan), cmap='jet', latlon=True)
         axes[2].set_title('Zoomed Parallel Component with wind vectors')
         plt.colorbar(cf2, cax=cax2, orientation='vertical',label='Wind Speed (m/s)')
 
@@ -256,7 +268,7 @@ def plot_preprocesspipeline_steps(year: str,region_path: str,lons: np.array, lat
 
 
         # WSA plot
-        wind_sq = zoomed_wind**2
+        wind_sq = flat_zoom_nan**2
 
         wind_sq_mean = np.nanmean(wind_sq)
 
@@ -346,7 +358,7 @@ def plot_decision_tree(dt: DecisionTreeClassifier,year: str,region: str, d: int,
     fig = plt.figure(figsize=(25,20))
     _ = plot_tree(dt, feature_names = feature_names,class_names=class_names,filled=True,precision=2)
 
-    fig.savefig(output_path / f'{year}_{region}_{mode}_{str(d)}_decision_tree.png')
+    fig.savefig(output_path / f'{year}_{region}_{mode}_{str(d)}_decision_tree_test.png')
     #clear the figure to avoid overlap in subsequent plots
     plt.close(fig)
 

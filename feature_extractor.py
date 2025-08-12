@@ -30,7 +30,7 @@ def extract_features(parallel_component_path: Path,sst_input_data_path: Path,x: 
         wind_stress_data = wind_data**2 # * c - Uncomment to add the constant to wind stress
         wind_stress_anomaly_data = wind_stress_data - np.nanmean(wind_stress_data)
 
-        sst_data = np.flipud(loadmat(sst_input_data_path / f'{region.lower()}_morocco_{year}_2km_{int(k/8)}.mat')['imagem'])
+        sst_data = np.flipud(loadmat(sst_input_data_path / f'{year}/{region.lower()}_morocco_{year}_2km_{int(k/8)}.mat')['imagem'])
         index_slices = math.ceil(wind_data.shape[0]/4), math.ceil(wind_data.shape[1]/3)
 
         zone_stats = []
@@ -41,26 +41,25 @@ def extract_features(parallel_component_path: Path,sst_input_data_path: Path,x: 
             for j in range(0,3):
                 x_start = wind_data.shape[0] - (i + 1) * index_slices[0]
                 x_end = wind_data.shape[0] - i * index_slices[0]
-                #y_start = j * y_size
-                #y_end = min((j + 1) * y_size, sst_file.shape[1])  # stay in bounds
+
 
                 # Clip negative indices in case we're at the top row
                 x_start = max(0, x_start)
 
-                #sst_file.shape[0] - (i + 1) * x_size
-                #sst_file.shape[0] - i * x_size
+
                 #data_to_select_sst = sst_data[wind_data.shape[0] - (i+1) * index_slices[0]: wind_data.shape[0] - i * index_slices[0], j*index_slices[1] : (j+1)*index_slices[1]]
-                data_to_select = wind_stress_anomaly_data[x_start:x_end, j*index_slices[1] : (j+1)*index_slices[1]]
+                #data_to_select = wind_stress_anomaly_data[x_start:x_end, j*index_slices[1] : (j+1)*index_slices[1]]
                 data_to_select_sst = sst_data[x_start:x_end, j*index_slices[1] : (j+1)*index_slices[1]]
-                #data_to_select = wind_stress_anomaly_data[i*index_slices[0]: (i+1)*index_slices[0], j*index_slices[1] : (j+1)*index_slices[1]]
+                data_to_select = wind_stress_anomaly_data[i*index_slices[0]: (i+1)*index_slices[0], j*index_slices[1] : (j+1)*index_slices[1]]
 
                 number_not_nans, number_nans = np.count_nonzero(~np.isnan(data_to_select)), np.count_nonzero(np.isnan(data_to_select))
 
-                if ((number_not_nans * 100) / data_to_select.size) < 1:
+
+                if ((number_not_nans * 100) / data_to_select.size) < 15:
                     counter += 1
                     continue
 
-
+                #print(number_not_nans, number_nans)
                 #append WSA min,avg,max values
                 zone_stats.append(np.nanmin(data_to_select))
                 zone_stats.append(np.nanmean(data_to_select))

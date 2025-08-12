@@ -15,7 +15,7 @@ def read_data(input_files_path: Path,year: str,region_sst: str) -> tuple[np.arra
     @:param region_sst: Region for which the SST data is to be read
     @:return: tuple of numpy arrays containing u and v wind components, latitudes, longitudes and the length of the data"""
 
-    path_wind = input_files_path / f'{year}_FULL_{region_sst}.grib'
+    path_wind = input_files_path / f'{year}/{year}_FULL_{region_sst}.grib'
     path_sst = input_files_path / f'sst-{region_sst.lower()}.grib'
 
     data = xarray.open_mfdataset(path_wind, engine='cfgrib', parallel=True)
@@ -95,7 +95,7 @@ def zoom_parallel_component(average_parallel_component: list,input_files_path: P
     @:return: None"""
 
     sst_data = loadmat(input_files_path / f'window_5_n_0.mat')['imagem']
-    sst_data = np.flipud(sst_data)
+    #sst_data = np.flipud(sst_data)
     sst_data_shape = sst_data.shape
 
     for i in range(len(average_parallel_component)):

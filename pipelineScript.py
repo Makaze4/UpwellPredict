@@ -15,7 +15,7 @@ to_extract_features = False  # To perform the first stage of the experiment pipe
 to_predict = False  # To perform the second stage of the experiment pipeline
 
 """Optional variables to run the experiments"""
-to_plot = False  # Plot the results of the preprocessing pipeline - Optional - Beware of additional time and space consumption
+to_plot = False  # Plot the results of the preprocessing pipeline - Optional - Beware of additional time and space consumption - Only for demo purposes
 
 
 """Main script paths to save the files"""
@@ -131,9 +131,9 @@ if to_extract_features:
     # check if extracted_features.csv exists, if it does, skip
     # Stage 2
 
-    if not os.path.exists(experiments_output_parent_path / 'extracted_features.csv'):
+    #if not os.path.exists(experiments_output_parent_path / 'extracted_features.csv'):
         # Extract features from the zoomed data if the file is non-existent
-        extract_features(zoomed_data_path, input_files_path, x, y, region_path, year, experiments_output_parent_path)
+    extract_features(zoomed_data_path, input_files_path, x, y, region_path, year, experiments_output_parent_path)
 
     # Build the dataset - Stage 2
     trap_functions, cores, centroids = compute_classes(year, region_path, experimentsInput_path, defuzzification_function)

@@ -87,6 +87,10 @@ def load_data(input_path: Path,year: str,region:str,dataset: str)->tuple[pd.Data
 
 
     labels = np.ravel(labels)
+    if len(labels) == 366:
+        #check if last position is NaN
+        if np.isnan(labels[-1]):
+            labels[-1] = np.nanmax(labels)
     return features, labels
 
 
@@ -109,7 +113,9 @@ def build_decision_tree(features: pd.DataFrame, labels: pd.DataFrame, depth: int
     grid = GridSearchCV(clf, decision_tree_params, scoring=scoring, cv=sss, n_jobs=-1, refit= 'f1_macro',verbose=1)
 
     grid.fit(x_train, y_train)
-    clf = DecisionTreeClassifier(**grid.best_params_,max_depth=depth)
+
+    clf = DecisionTreeClassifier(**grid.best_params_,max_depth=depth,random_state=42)
+
     clf.fit(x_train, y_train)
 
     y_pred = clf.predict(x_test)
@@ -118,6 +124,8 @@ def build_decision_tree(features: pd.DataFrame, labels: pd.DataFrame, depth: int
     stats, test_report = log_stats(grid,y_test,y_pred,y_score,'dt')
 
     print_stats(*stats[3:],test_report)
+    #print best params
+    print(f'Best parameters: {grid.best_params_}')
 
     return clf,stats,class_names_aux(labels)
 

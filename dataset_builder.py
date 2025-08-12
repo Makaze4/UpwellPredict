@@ -9,6 +9,7 @@ usp_instants_dict = {
         '2004': [1, 14, 22, 25],
         '2005': [1, 16, 29],
         '2006': [1, 12, 16, 20],
+        '2007': [1, 12, 23],
         '2008': [1, 13, 20, 39],
         '2009': [1, 18, 21],
         '2010': [1, 5, 22, 27],
@@ -19,13 +20,14 @@ usp_instants_dict = {
         '2015': [1, 9, 22, 26],
         '2016': [1, 11, 18, 26],
         '2017': [1, 7, 20],
-        '2018': [1, 8, 20],
+        '2018': [1, 8, 20, 24],
         '2019': [1, 12, 21, 40]
     },
     'south': {
         '2004': [1, 20, 23, 34],
         '2005': [1, 16, 23, 37],
         '2006': [1, 20, 26],
+        '2007': [1, 19, 24, 33],
         '2008': [1, 19, 23, 33],
         '2009': [1, 19, 24, 28],
         '2010': [1, 22, 26],
@@ -245,6 +247,9 @@ def build_dataset(extracted_features_path: Path, classes_path: Path, year: str, 
     df_features = pd.read_csv(extracted_features_path / f'extracted_features.csv', header=None)
     df_classes = pd.read_csv(classes_path / f'{year}_{region}_{mode}.csv', header=None)
     df_features.fillna(df_features.mean(), inplace=True)
+
+
+
 
     df_features = df_features.round(2)
 
