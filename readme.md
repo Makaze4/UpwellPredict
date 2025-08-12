@@ -67,7 +67,7 @@ Also divided into North and South, the output data contains:
     * Excel (.xlsx) file containing the optimal model's parameters and train-validation and test set classification results
     * Excel (.xlsx) file containing the optimal model's rule set
     * The files are organized according to the depths tested in the pipeline (3 to 10)
-  * Random Forest feature importances (if executed)
+  * Random Forest feature importance's (if executed)
   
 
 
@@ -77,5 +77,5 @@ Also divided into North and South, the output data contains:
 
 The software as of testing is working, however it should be noticed that some results may differ
 from the ones presented in the paper due to the random nature of the machine learning algorithms used.
-The results are reproducible, but the optimal parameters
+The results are reproducible, but the optimal hyperparameters
 and subsequent rule sets may vary slightly due to the random nature of the algorithms.
