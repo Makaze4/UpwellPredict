@@ -22,7 +22,7 @@ to_plot = False  # Plot the results of the preprocessing pipeline - Optional - B
 
 input_files_parent_path = Path(f'input_data/')
 experimentsOutput_path = Path(f'experimentsOutput/')
-experimentsInput_path = Path(f'experimentsInput/')
+experimentsInput_path = Path(f'inputDatasets/')
 model = 'dt'  # 'dt' for Decision Tree, 'rf' for Random Forest
 defuzzification_function = 'mom' # 'mom', 'som', 'lom', 'centroid', 'bisector'
 
