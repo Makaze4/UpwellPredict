@@ -1,25 +1,29 @@
-# Upwelling Prediction Pipeline
+# UpwellPredict
 
-This repository contains a Python based pipeline for the prediction of upwelling stability periods using machine learning techniques.
+* This repository contains a Python based pipeline for the prediction of upwelling stability periods (USP) using machine learning techniques.
+* *.grib files are used as the Wind maps, with two auxiliary *.grib files containing SST information. *.mat files are used as SST grids.
+* In this repository is present the fully proposed pipeline, including the preprocessing steps, USP label assignment, feature extraction and model building and evaluation, along with
+some auxiliary functions for logging and plotting the results.
 
 ## Repository Overview
 
 ---
 ### Files:
 
-* pipelineScript.py: Main script for running the upwelling prediction pipeline.
+* pipelineScript.py: Main script for running the UpwellPredict pipeline.
 * preprocesser.py: Implementation of the preprocessing pipeline steps.
 * feature_extractor.py: Implementation of the feature extraction steps.
-* dataset_builder.py: Classifies the extraced features dataset
+* dataset_builder.py: Classifies the extracted feature set.
 * model_building.py: Implementation of the model training and evaluation steps with decision trees and random forests.
-* loggers.py: Functions for logging the pipeline's progress and results.
-* plotters.py: Functions for plotting the results of the pipeline.
+* loggers.py: Auxiliary functions for logging the pipeline's progress and results.
+* plotters.py: Auxiliary functions for plotting the results of the pipeline.
 * requirements.txt: List of required Python packages.
+* User_Instructions.txt: Instructions for using the UpwellPredict pipeline.
 * pipeline.jpg: Diagram illustrating the structure of the workflow pipeline.
 
 ### Folders:
 * input_data: Contains the input data for the pipeline, including grib and mat files (divided into North and South).
-* experimentsInput: Contains the datasets for testing the pipeline.
+* experimentsInput: Contains the datasets for the model building and evaluation phase of the pipeline.
 * experimentsOutput: Contains the output data from the pipeline, including Excel files with the results (divided into North and South).
 
 ## Software Requirements
@@ -36,8 +40,8 @@ pip install -r requirements.txt
 
 ---
 
-* Download the repository and place it in a directory of your choice.
-* It is recommended to use an IDE to run the software, as it uses several paths as inputs to the program
+* Download the latest version from the repository and place it in a directory of your choice.
+* It is recommended to use an IDE to run the software, as it uses several paths as inputs to the program.
 * To run the software, execute the pipelineScript.py file.
 * Before the actual execution the user is prompted to input:
   * Year (2004-2019)
@@ -54,7 +58,7 @@ pip install -r requirements.txt
   * In each folder the following files are present:
     * Auxiliary *.grib and *.mat files for the preprocessing steps 
     * Folders of the corresponding years containing the *.grib file from the full year extracted from the Copernicus Climate Change Service (C3S) Climate Data Store (CDS) and 
-    the *.mat files containing the original SST information of each week
+    the *.mat files containing the original SST information of each week.
 
 ## Output data-experimentsOutput
 

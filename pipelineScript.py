@@ -10,9 +10,12 @@ from plotters import plot_preprocesspipeline_steps, plot_trap_functions
 import time
 
 """Variables to run the experiments"""
-to_preprocess = True  # To perform the preprocessing pipeline
-to_extract_features = True  # To perform the first stage of the experiment pipeline
-to_predict = True  # To perform the second stage of the experiment pipeline
+to_preprocess = True  # To perform the first stage of the experiment pipeline (preprocessing)
+to_extract_features = True  # To perform the second and third stages of the experiment pipeline
+to_predict = True  # To perform the fourth stage of the experiment pipeline
+
+model = 'dt'  # 'dt' for Decision Tree, 'rf' for Random Forest
+defuzzification_function = 'mom' # 'mom', 'som', 'lom', 'centroid', 'bisector'
 
 """Optional variables to run the experiments"""
 to_plot = False  # Plot the results of the preprocessing pipeline - Optional - Beware of additional time and space consumption - Only for demo purposes
@@ -23,9 +26,6 @@ to_plot = False  # Plot the results of the preprocessing pipeline - Optional - B
 input_files_parent_path = Path(f'input_data/')
 experimentsOutput_path = Path(f'experimentsOutput/')
 experimentsInput_path = Path(f'inputDatasets/')
-model = 'dt'  # 'dt' for Decision Tree, 'rf' for Random Forest
-defuzzification_function = 'mom' # 'mom', 'som', 'lom', 'centroid', 'bisector'
-
 
 #Default values for the experiments - Comment the next line to run the script without user input
 
@@ -98,6 +98,8 @@ if to_preprocess:
     os.makedirs(rotated_data_path)
     os.makedirs(zoomed_data_path)
 
+    #Execute Preprocessing pipeline - Stage 1
+
     print("Opening grib file")
     u_values, v_values, lats, lons, length = read_data(input_files_path, year, region_path)
 
@@ -115,28 +117,31 @@ if to_preprocess:
 
 
 if to_plot:
+    #Only plots the first 8 days for sake of demonstration
     shutil.rmtree(plot_output_path, ignore_errors=True)
     os.makedirs(plot_output_path)
     u_values, v_values, lats, lons, length = read_data(input_files_path, year, region_path)
     print("Plotting the preprocessing pipeline steps")
-    #Only plots the first 8 days for sake of demonstration
     plot_preprocesspipeline_steps(year,region_path, lons, lats,input_files_path,daily_averages_u_path, daily_averages_v_path, rotated_data_path, zoomed_data_path, plot_output_path)
     print("Finished plotting the preprocessing pipeline steps")
+
 
 #Contains stages 2 and 3 of the workflow
 if to_extract_features:
 
+    #Check if the plot output folder exists, if not create it
+    if not os.path.exists(plot_output_path):
+        os.makedirs(plot_output_path)
+
     print("Extracting features from the zoomed data")
 
-    # check if extracted_features.csv exists, if it does, skip
-    # Stage 2
-
-    #if not os.path.exists(experiments_output_parent_path / 'extracted_features.csv'):
-        # Extract features from the zoomed data if the file is non-existent
-    extract_features(zoomed_data_path, input_files_path, x, y, region_path, year, experiments_output_parent_path)
-
-    # Build the dataset - Stage 2
+    # USP Label Assignment to WSA maps via Fuzzyfication-Defuzzification - Stage 2
     trap_functions, cores, centroids = compute_classes(year, region_path, experimentsInput_path, defuzzification_function)
+
+    # Feature extraction and dataset construction - Stage 3
+    if not os.path.exists(experiments_output_parent_path / 'extracted_features.csv'):
+        #Extract features from the zoomed data if the file is non-existent
+        extract_features(zoomed_data_path, input_files_path, x, y, region_path, year, experiments_output_parent_path)
     build_dataset(experiments_output_parent_path, experimentsInput_path, year, region_path, experimentsInput_path, defuzzification_function)
 
     # Plot the trapezoidal functions
@@ -146,6 +151,7 @@ if to_extract_features:
 
 if to_predict:
 
+    #Executes Stage 4 of the pipeline - Tree-Based Classification models
     print("Building the models")
     if not os.path.exists(model_building_results_path):
         os.makedirs(model_building_results_path)
