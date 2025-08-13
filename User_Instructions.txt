@@ -1,0 +1,10 @@
+User Instructions to run the UpwellPredict software:
+-To run the software, the pipelineScript.py file must be executed.
+-For a first time execution, it is recommended to run all the stages, following that, the first stage can be skipped.
+-Before executing, change the variables under the comment "Variables to run the experiments" to select the desired stages.
+-There is an optional variable to visualize the first stage results-This is only for demo purposes, as it generates a lot of data.
+-When execution starts, the user is prompted three additional variables: year (2004-2019), region(North-'N'; South-'S'), and dataset ('ds1','ds2','ds3).
+-The user can also comment the line containing the prompt function and change the variables commented above it to execute the program without being prompted.
+-The user can also change the variables 'model' ('dt' or 'rf') and 'defuzzification_function' (all the available on the scikit-fuzz package)
+-The dataset classified with the extracted features obtained will be present in the folder inputDatasets.
+-The output files will be in the corresponding region-year section of the experimentsOutput folder.
