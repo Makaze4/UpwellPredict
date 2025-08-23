@@ -1,4 +1,4 @@
-User Instructions to run the UpwellPredict software:
+User Instructions to run the T-USP software:
 -To run the software, the pipelineScript.py file must be executed.
 -For a first time execution, it is recommended to run all the stages, following that, the first stage can be skipped.
 -Before executing, change the variables under the comment "Variables to run the experiments" to select the desired stages.
